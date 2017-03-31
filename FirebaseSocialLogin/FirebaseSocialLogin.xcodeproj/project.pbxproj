@@ -27,6 +27,7 @@
 		8425609B1E8EB0DC00BC4C7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8425609E1E8EB0DC00BC4C7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		842560A01E8EB0DC00BC4C7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		849C6B621E8ECE5C00488A65 /* FirebaseSocialLogin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FirebaseSocialLogin.entitlements; sourceTree = "<group>"; };
 		FFC5BAB2FFF7589CF6F882A5 /* Pods_FirebaseSocialLogin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirebaseSocialLogin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -71,6 +72,7 @@
 		842560901E8EB0DC00BC4C7B /* FirebaseSocialLogin */ = {
 			isa = PBXGroup;
 			children = (
+				849C6B621E8ECE5C00488A65 /* FirebaseSocialLogin.entitlements */,
 				842560911E8EB0DC00BC4C7B /* AppDelegate.swift */,
 				842560931E8EB0DC00BC4C7B /* ViewController.swift */,
 				842560951E8EB0DC00BC4C7B /* Main.storyboard */,
@@ -126,7 +128,13 @@
 				TargetAttributes = {
 					8425608D1E8EB0DC00BC4C7B = {
 						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = ZEVPD22KGG;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -342,6 +350,8 @@
 			baseConfigurationReference = 6B02B208D05D5563F82C042F /* Pods-FirebaseSocialLogin.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FirebaseSocialLogin/FirebaseSocialLogin.entitlements;
+				DEVELOPMENT_TEAM = ZEVPD22KGG;
 				INFOPLIST_FILE = FirebaseSocialLogin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -359,6 +369,8 @@
 			baseConfigurationReference = 299F8879768F3D08B63CE783 /* Pods-FirebaseSocialLogin.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FirebaseSocialLogin/FirebaseSocialLogin.entitlements;
+				DEVELOPMENT_TEAM = ZEVPD22KGG;
 				INFOPLIST_FILE = FirebaseSocialLogin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -390,6 +402,7 @@
 				842560A51E8EB0DC00BC4C7B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
