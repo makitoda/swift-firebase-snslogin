@@ -14,6 +14,7 @@
 		8425609A1E8EB0DC00BC4C7B /* FirebaseSocialLogin.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 842560981E8EB0DC00BC4C7B /* FirebaseSocialLogin.xcdatamodeld */; };
 		8425609C1E8EB0DC00BC4C7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8425609B1E8EB0DC00BC4C7B /* Assets.xcassets */; };
 		8425609F1E8EB0DC00BC4C7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8425609D1E8EB0DC00BC4C7B /* LaunchScreen.storyboard */; };
+		849C6B641E8EF30F00488A65 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 849C6B631E8EF30F00488A65 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		8425609E1E8EB0DC00BC4C7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		842560A01E8EB0DC00BC4C7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		849C6B621E8ECE5C00488A65 /* FirebaseSocialLogin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FirebaseSocialLogin.entitlements; sourceTree = "<group>"; };
+		849C6B631E8EF30F00488A65 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FFC5BAB2FFF7589CF6F882A5 /* Pods_FirebaseSocialLogin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirebaseSocialLogin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -80,6 +82,7 @@
 				8425609D1E8EB0DC00BC4C7B /* LaunchScreen.storyboard */,
 				842560A01E8EB0DC00BC4C7B /* Info.plist */,
 				842560981E8EB0DC00BC4C7B /* FirebaseSocialLogin.xcdatamodeld */,
+				849C6B631E8EF30F00488A65 /* GoogleService-Info.plist */,
 			);
 			path = FirebaseSocialLogin;
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8425609F1E8EB0DC00BC4C7B /* LaunchScreen.storyboard in Resources */,
+				849C6B641E8EF30F00488A65 /* GoogleService-Info.plist in Resources */,
 				8425609C1E8EB0DC00BC4C7B /* Assets.xcassets in Resources */,
 				842560971E8EB0DC00BC4C7B /* Main.storyboard in Resources */,
 			);
