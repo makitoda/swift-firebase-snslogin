@@ -11,48 +11,43 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let loginButton = FBSDKLoginButton()
-        view.addSubview(loginButton)
-        loginButton.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addConstraints([
-            NSLayoutConstraint(
-                item: loginButton,
-                attribute: NSLayoutAttribute.top,
-                relatedBy: NSLayoutRelation.equal,
-                toItem: self.view,
-                attribute: NSLayoutAttribute.top,
-                multiplier: 1.0,
-                constant: 50
-            ),
-            NSLayoutConstraint(
-                item: loginButton,
-                attribute: NSLayoutAttribute.left,
-                relatedBy: NSLayoutRelation.equal,
-                toItem: self.view,
-                attribute: NSLayoutAttribute.left,
-                multiplier: 1.0,
-                constant: 16
-            ),
-            NSLayoutConstraint(
-                item: loginButton,
-                attribute: NSLayoutAttribute.width,
-                relatedBy: NSLayoutRelation.equal,
-                toItem: self.view,
-                attribute: NSLayoutAttribute.width,
-                multiplier: 1.0,
-                constant: -32
-            ),
-            NSLayoutConstraint(
-                item: loginButton,
-                attribute: NSLayoutAttribute.height,
-                relatedBy: NSLayoutRelation.equal,
-                toItem: nil,
-                attribute: NSLayoutAttribute.height,
-                multiplier: 1.0,
-                constant: 60
-            )])
+        // Facebook login button
+        let FBButton = FBSDKLoginButton()
+        view.addSubview(FBButton)
+        FBButton.delegate = self
+        FBButton.readPermissions = ["email", "public_profile"]
         
-        loginButton.delegate = self
+        // custom Facebook login button
+        let customFBButton = UIButton()
+        customFBButton.backgroundColor = UIColor(red: CGFloat(59 / 255.0), green: CGFloat(89 / 255.0), blue: CGFloat(152 / 255.0), alpha: 1.0)
+        customFBButton.translatesAutoresizingMaskIntoConstraints = false
+        customFBButton.setTitle("Facebook Login", for: .normal)
+        customFBButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        view.addSubview(customFBButton)
+        customFBButton.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
+        
+        // layout buttons
+        let buttons = ["FBButton": FBButton,
+                       "customFBButton": customFBButton]
+        buttons.forEach { $1.translatesAutoresizingMaskIntoConstraints = false }
+        self.view.addConstraints(
+            NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[FBButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons) +
+            NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[customFBButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons) +
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-50-[FBButton]-8-[customFBButton]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons)
+        )
+    }
+    
+    func handleCustomFBLogin() {
+        FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: self) {
+            
+            (result, err) in
+            if err != nil {
+                print("Custom FB Login failed:", err!)
+                return
+            }
+            
+            self.showEmailAddress()
+        }
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
@@ -65,7 +60,19 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
             return
         }
         
-        print("Successfully logged in with facebook...")
+        showEmailAddress()
+    }
+    
+    func  showEmailAddress() {
+        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email"]).start {
+            (connection, result, err) in
+            
+            if err != nil {
+                print("Failed to start graph request:", err!)
+                return
+            }
+            print(result!)
+        }
     }
 }
 
