@@ -7,4 +7,8 @@ target 'FirebaseSocialLogin' do
 
   # Pods for FirebaseSocialLogin
 
+pod ’FBSDKCoreKit’
+pod ’FBSDKShareKit’
+pod ’FBSDKLoginKit’
+
 end
