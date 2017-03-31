@@ -17,17 +17,20 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInUIDel
         let FBButton = setupFacebookButton()
         let customFBButton = setupCustomFacebookButton()
         let googleButton = setupGoogleButton()
+        let customGoogleButton = setupCustomGoogleButton()
         
         // layout buttons
         let buttons = ["FBButton": FBButton,
                        "customFBButton": customFBButton,
-                       "googleButton": googleButton]
+                       "googleButton": googleButton,
+                       "customGoogleButton": customGoogleButton]
         buttons.forEach { $1.translatesAutoresizingMaskIntoConstraints = false }
         self.view.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[FBButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons) +
                 NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[customFBButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons) +
                 NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[googleButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons) +
-            NSLayoutConstraint.constraints(withVisualFormat: "V:|-50-[FBButton]-8-[customFBButton]-8-[googleButton]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons)
+                NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[customGoogleButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons) +
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-50-[FBButton]-8-[customFBButton]-8-[googleButton]-8-[customGoogleButton]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons)
         )
         
         GIDSignIn.sharedInstance().uiDelegate = self
@@ -49,6 +52,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInUIDel
         customFBButton.translatesAutoresizingMaskIntoConstraints = false
         customFBButton.setTitle("Facebook Login", for: .normal)
         customFBButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        customFBButton.layer.cornerRadius = 3
         view.addSubview(customFBButton)
         customFBButton.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
         return customFBButton
@@ -59,6 +63,26 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInUIDel
         let googleButton = GIDSignInButton()
         view.addSubview(googleButton)
         return googleButton
+    }
+    
+    // custom google sign in button
+    fileprivate func setupCustomGoogleButton() -> UIButton {
+        let customGoogleButton = UIButton()
+        customGoogleButton.translatesAutoresizingMaskIntoConstraints = false
+        customGoogleButton.setTitle("Google Sign in", for: .normal)
+        customGoogleButton.setTitleColor(.darkGray, for: .normal)
+        customGoogleButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        customGoogleButton.backgroundColor = .clear
+        customGoogleButton.layer.cornerRadius = 3
+        customGoogleButton.layer.borderWidth = 1
+        customGoogleButton.layer.borderColor = UIColor.lightGray.cgColor
+        view.addSubview(customGoogleButton)
+        customGoogleButton.addTarget(self, action: #selector(handleCustomGoogleSignIn), for: .touchUpInside)
+        return customGoogleButton
+    }
+    
+    func handleCustomGoogleSignIn() {
+        GIDSignIn.sharedInstance().signIn()
     }
     
     func handleCustomFBLogin() {
