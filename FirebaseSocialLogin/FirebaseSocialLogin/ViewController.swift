@@ -8,18 +8,42 @@ import FBSDKLoginKit
 import Firebase
 import GoogleSignIn
 
-class ViewController: UIViewController, FBSDKLoginButtonDelegate {
+class ViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInUIDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Facebook login button
+        // login buttons
+        let FBButton = setupFacebookButton()
+        let customFBButton = setupCustomFacebookButton()
+        let googleButton = setupGoogleButton()
+        
+        // layout buttons
+        let buttons = ["FBButton": FBButton,
+                       "customFBButton": customFBButton,
+                       "googleButton": googleButton]
+        buttons.forEach { $1.translatesAutoresizingMaskIntoConstraints = false }
+        self.view.addConstraints(
+            NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[FBButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons) +
+                NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[customFBButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons) +
+                NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[googleButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons) +
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-50-[FBButton]-8-[customFBButton]-8-[googleButton]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons)
+        )
+        
+        GIDSignIn.sharedInstance().uiDelegate = self
+    }
+    
+    // Facebook login button
+    fileprivate func setupFacebookButton() -> FBSDKButton {
         let FBButton = FBSDKLoginButton()
         view.addSubview(FBButton)
         FBButton.delegate = self
         FBButton.readPermissions = ["email", "public_profile"]
-        
-        // custom Facebook login button
+        return FBButton
+    }
+    
+    // custom Facebook login button
+    fileprivate func setupCustomFacebookButton() -> UIButton {
         let customFBButton = UIButton()
         customFBButton.backgroundColor = UIColor(red: CGFloat(59 / 255.0), green: CGFloat(89 / 255.0), blue: CGFloat(152 / 255.0), alpha: 1.0)
         customFBButton.translatesAutoresizingMaskIntoConstraints = false
@@ -27,16 +51,14 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         customFBButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         view.addSubview(customFBButton)
         customFBButton.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
-        
-        // layout buttons
-        let buttons = ["FBButton": FBButton,
-                       "customFBButton": customFBButton]
-        buttons.forEach { $1.translatesAutoresizingMaskIntoConstraints = false }
-        self.view.addConstraints(
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[FBButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons) +
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[customFBButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons) +
-            NSLayoutConstraint.constraints(withVisualFormat: "V:|-50-[FBButton]-8-[customFBButton]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: buttons)
-        )
+        return customFBButton
+    }
+    
+    // google sign in button
+    fileprivate func setupGoogleButton() -> GIDSignInButton {
+        let googleButton = GIDSignInButton()
+        view.addSubview(googleButton)
+        return googleButton
     }
     
     func handleCustomFBLogin() {
@@ -69,17 +91,15 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         let accessToken = FBSDKAccessToken.current()
         guard  let accessTokenString = accessToken?.tokenString else { return }
-        
         let credentials = FIRFacebookAuthProvider.credential(withAccessToken: accessTokenString)
         
         FIRAuth.auth()?.signIn(with: credentials, completion: { (user, error) in
             if error != nil {
-                print("Something went wrong with our FB user: ", error ?? "")
+                print("Something went wrong with Facbook: ", error ?? "")
                 
                 return
             }
-            print("Successfully logged in with our user:", user ?? "")
-        
+            print("Successfully logged in with Facebook:", user ?? "")
         })
         
         FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email"]).start {
