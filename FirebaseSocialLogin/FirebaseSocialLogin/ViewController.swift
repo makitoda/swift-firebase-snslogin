@@ -58,12 +58,14 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInUIDel
         customFBButton.setTitle("Facebook Login", for: .normal)
         customFBButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         customFBButton.layer.cornerRadius = 3
+        customFBButton.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        
         view.addSubview(customFBButton)
         customFBButton.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
         return customFBButton
     }
     
-    func handleCustomFBLogin() {
+    @objc func handleCustomFBLogin() {
         FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: self) { ( result, err ) in
             if err != nil {
                 print("Custom FB Login failed:", err!)
@@ -134,7 +136,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInUIDel
         return customGoogleButton
     }
     
-    func handleCustomGoogleSignIn() {
+    @objc func handleCustomGoogleSignIn() {
         GIDSignIn.sharedInstance().signIn()
     }
     
